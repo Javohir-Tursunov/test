@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Holder</title>
+	<style>
+		*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+body{
+	scroll-behavior: smooth;
+	background: rgba(0,0,0,.3);
+}
+div.container{
+	width: 100%;
+	min-height: 100vh;
+	justify-content: center;
+	align-items: center;
+	transform: scale(0);
+}
+div.container > div.hold{
+	width: 300px;
+	height: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(255,255,255,.1);
+	cursor: move;
+	position: absolute;
+	user-select: none;
+	box-shadow: inset 2px 2px 5px rgba(255, 255, 255, .7),
+				 2px 2px 5px rgba(0,0,0,.1);
+}
+div.container > div.hold > p {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 30px;
+	color: transparent;
+	background:linear-gradient(35deg,cyan,pink);
+	-webkit-background-clip: text;
+}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div
+		 class="hold"
+		 id="hold"
+		 >
+		 	<p>
+		 		Drag me
+		 	</p>
+		 </div>
+	</div>
+	<script>
+		var $hold = document.querySelector('#hold');
+		window.onload = function() {
+			document.querySelector('.container').style = 'transform :scale(1);transition : 700ms;'
+		}
+$hold.onmousedown = function(ed) {
+    /*x = ed.clientX - ed.target.offsetLeft;
+    y = ed.clientY - ed.target.offsetTop*/
+    x = ed.layerX;
+    y = ed.layerY;
+    window.onmousemove = function(e) {
+        $hold.style = ` 
+    		top: ${e.clientY}px;
+    		left: ${e.clientX}px;
+			transform: translate(-50%, -50%);
+
+    	 `;
+        if (e.clientX > innerWidth || e.clientY > innerHeight) {
+            window.onmousemove = null
+        }
+    }
+}
+$hold.onmouseup = function() {
+    window.onmousemove = null
+}
+	</script>
+</body>
+</html>
